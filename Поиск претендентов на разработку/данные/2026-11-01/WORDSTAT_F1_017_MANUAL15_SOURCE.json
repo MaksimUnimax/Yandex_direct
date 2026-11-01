@@ -1,0 +1,784 @@
+{
+  "evidence_type": "USER_PROVIDED_WORDSTAT_RESULT_V1_MANUAL_MULTI_COMMAND",
+  "wave": "F1-017",
+  "received_date": "2026-11-01",
+  "execution_date": "NOT_EXPLICIT_IN_PROVIDER_ENVELOPES",
+  "provenance": "User delivered 15 complete WORDSTAT_RESULT_V1 envelopes after a YMB_ERROR_V1 SEND_BUTTON_NOT_READY (2026-11-01T03:03:04.932Z). These records reproduce the delivered fields field-wise, not the raw chat layout. Previous delivery failure does not mean API calls were unexecuted.",
+  "command_source": "ПАРТИЯ_WORDSTAT_F1_017_2026-11-01.md",
+  "prior_delivery_error_source": "данные/2026-11-01/YMB_DELIVERY_SEND_TARGET_ERROR_2026-11-01_030304Z.json",
+  "count": 15,
+  "numeric_totalCount": 14,
+  "missing_numeric_totalCount": 1,
+  "estimated_cost_rub": 0.3,
+  "actual_debit_verified": false,
+  "notes": [
+    "All 15 provider reports are OK, HTTP 200, request_executed=true, automatic_retry=false; 15 distinct request_id and exact original F1-017 phrases.",
+    "The preceding SEND_BUTTON_NOT_READY pertains to delivery and is no longer evidence of unknown provider outcomes for these 15 reported requests; the cause of delivery failure itself is not confirmed fixed.",
+    "O25.1-Q2 returned a successful result={} without a numeric totalCount; do not interpret this as zero demand.",
+    "O17.3-Q1=2272 has related searches for receipt discrepancy acts and form samples, including 'образец'; it does not establish software-buyer demand for item-level inbound delivery reconciliation.",
+    "O42.3-Q1=20 has a related phrase about rules of organizing theatrical costume inventory rather than paid software.",
+    "Five nested rows and 17 associations for O17.3-Q1, and one nested row and 15 associations for O42.3-Q1, are preserved separately. Their counts are nonadditive.",
+    "Missing nested result arrays were not delivered; do not infer they are confirmed empty.",
+    "Product-specific CPC, payment conversion, validated prices, acquisition costs, retention, and paid-relevant Q_low/Q_high are unmeasured."
+  ],
+  "records": [
+    {
+      "query_id": "O01.3-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-f94bdf7f-4f62-4987-b184-9a62e9e8ae0d",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет реагентов лаборатории",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1078,
+      "result": {
+        "totalCount": "16"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O04.2-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-11f7053a-8b93-4a32-b4b1-d7545bbfa0cd",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "проверка кабельного журнала",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 331,
+      "result": {
+        "totalCount": "38"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O06.1-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-1ee9aca8-7a00-481c-bfa5-76e9aa0c674c",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "фотоотчет строительных работ",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 320,
+      "result": {
+        "totalCount": "4"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O09.1-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-23cf02e7-2c84-43ea-8d63-bc13a8e1c0c1",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "спецификация фурнитуры мебели",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 955,
+      "result": {
+        "totalCount": "7"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O11.1-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-3a3fd80f-a8d9-4e77-98db-ebf42937ee2a",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "проверка вылетов макета",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 332,
+      "result": {
+        "totalCount": "15"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O15.1-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-cb465881-9dc3-437b-9bca-cbef12a4f052",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет расходов грузоперевозки",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 323,
+      "result": {
+        "totalCount": "40"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O17.3-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-b1eb022b-eb50-4af9-a962-bab00d6d689f",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "акт расхождений при приемке",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 395,
+      "result": {
+        "totalCount": "2272",
+        "results": [
+          {
+            "phrase": "акт о расхождении при приемке",
+            "count": "831"
+          },
+          {
+            "phrase": "акт о расхождении при приемке товара",
+            "count": "633"
+          },
+          {
+            "phrase": "акт расхождений при приемке товара образец",
+            "count": "156"
+          },
+          {
+            "phrase": "акт расхождения при приемке товара образец простой",
+            "count": "42"
+          },
+          {
+            "phrase": "акт о расхождениях при приемке товаров составляется",
+            "count": "37"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "акт приема передачи автомобиля",
+            "count": "17636"
+          },
+          {
+            "phrase": "акт приема передачи квартиры",
+            "count": "22832"
+          },
+          {
+            "phrase": "акт дефектовки",
+            "count": "8667"
+          },
+          {
+            "phrase": "акт сверки взаиморасчетов",
+            "count": "4246"
+          },
+          {
+            "phrase": "акт приема передачи оборудования",
+            "count": "6182"
+          },
+          {
+            "phrase": "акт приема передачи транспортного средства",
+            "count": "5076"
+          },
+          {
+            "phrase": "акт приема передачи документов",
+            "count": "9477"
+          },
+          {
+            "phrase": "акт приема передачи авто",
+            "count": "7599"
+          },
+          {
+            "phrase": "акт приема передачи товара",
+            "count": "5724"
+          },
+          {
+            "phrase": "акт приема передачи земельного участка",
+            "count": "4726"
+          },
+          {
+            "phrase": "акт приема передачи имущества",
+            "count": "7475"
+          },
+          {
+            "phrase": "акт приема передачи образец",
+            "count": "32399"
+          },
+          {
+            "phrase": "акт приема передачи автомобиля при продаже",
+            "count": "2530"
+          },
+          {
+            "phrase": "акт приема передачи документов образец",
+            "count": "2131"
+          },
+          {
+            "phrase": "акт приема передачи тс",
+            "count": "2228"
+          },
+          {
+            "phrase": "акт рекламации",
+            "count": "3300"
+          },
+          {
+            "phrase": "уведомление об отказе в подтверждении полномочий",
+            "count": "596"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O18.3-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-65207bd0-b53a-4b05-ab8d-6421f0b6502e",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "найти товары без фотографий",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 331,
+      "result": {
+        "totalCount": "14"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O21.1-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-1956b97b-6f17-4f90-8d71-42bd55cc2815",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "журнал осмотра пчелиных семей",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 968,
+      "result": {
+        "totalCount": "1"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O23.2-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-f895e779-4c8f-4eed-adfb-897bcc16bcee",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "производственное задание кухне",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 969,
+      "result": {
+        "totalCount": "45"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O25.1-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-89da5d8d-64c9-4770-adcb-c0fc36b8ae5a",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "контроль уборки апартаментов",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 963,
+      "result": {},
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O31.1-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-e9622a88-5adc-49cc-8a8d-0bd84617206b",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет показов квартиры",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 320,
+      "result": {
+        "totalCount": "12"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O34.3-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-a0986dab-207c-4920-b8ab-da36c1ff3887",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "объединить файлы измерений",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 333,
+      "result": {
+        "totalCount": "3"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O35.3-Q2",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-3086e18a-71ed-4ff9-ab26-3f19506c2fca",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "проверка комплекта заявки",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 969,
+      "result": {
+        "totalCount": "16"
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    },
+    {
+      "query_id": "O42.3-Q1",
+      "response_type": "WORDSTAT_RESULT_V1",
+      "bridge": "yandex-marketing-bridge",
+      "version": "0.1.14",
+      "service": "wordstat",
+      "operation": "getTop",
+      "request_id": "wordstat-bd450233-ff00-4d27-afdf-83bc9903f30f",
+      "run_id": null,
+      "job_id": null,
+      "status": "OK",
+      "reason": null,
+      "cost_estimate": {
+        "estimated_rub": 0.02,
+        "tariff_checked_at": "2026-08-12",
+        "tariff_source": "[https://aistudio.yandex.ru/docs/ru/search-api/pricing.html](https://aistudio.yandex.ru/docs/ru/search-api/pricing.html)"
+      },
+      "policy": {
+        "channel": "manual",
+        "active_service": "wordstat"
+      },
+      "command": {
+        "method": "getTop",
+        "phrase": "учет театральных костюмов",
+        "numPhrases": 50,
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ]
+      },
+      "http_status": 200,
+      "elapsed_ms": 1021,
+      "result": {
+        "totalCount": "20",
+        "results": [
+          {
+            "phrase": "правила организации учета театральных костюмов",
+            "count": "5"
+          }
+        ],
+        "associations": [
+          {
+            "phrase": "кто был основателем театра",
+            "count": "1066"
+          },
+          {
+            "phrase": "организационно правовая форма это",
+            "count": "9316"
+          },
+          {
+            "phrase": "организационно правовая форма",
+            "count": "86673"
+          },
+          {
+            "phrase": "корпоративная культура это",
+            "count": "2761"
+          },
+          {
+            "phrase": "учебная группа актеры",
+            "count": "4083"
+          },
+          {
+            "phrase": "организационно правовые формы предприятий",
+            "count": "14523"
+          },
+          {
+            "phrase": "организационно правовая форма что это",
+            "count": "1413"
+          },
+          {
+            "phrase": "организационно правовые формы юридических лиц",
+            "count": "9283"
+          },
+          {
+            "phrase": "организационно правовая форма юридического лица это",
+            "count": "1166"
+          },
+          {
+            "phrase": "пункт назначения актеры",
+            "count": "7604"
+          },
+          {
+            "phrase": "как называется этот театр активный гражданин",
+            "count": "359"
+          },
+          {
+            "phrase": "все закончится на нас актеры",
+            "count": "1432"
+          },
+          {
+            "phrase": "корпоративное право это",
+            "count": "2727"
+          },
+          {
+            "phrase": "кто был основателем театра активный гражданин ответы",
+            "count": "62"
+          },
+          {
+            "phrase": "организационно правовая форма предприятия это",
+            "count": "1140"
+          }
+        ]
+      },
+      "request_executed": true,
+      "automatic_retry": false
+    }
+  ]
+}
