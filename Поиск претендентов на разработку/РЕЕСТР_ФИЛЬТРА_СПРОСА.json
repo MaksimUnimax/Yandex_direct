@@ -2,7 +2,7 @@
   "schema_version": 1,
   "filter_version_at_creation": "F1.0",
   "created_date": "2026-10-31",
-  "registry_status": "F1_011_165_VERIFIED_CALLS_135_SCENARIOS_FIRST_SEED_COMPLETE_FILTER_PENDING",
+  "registry_status": "F1_012_180_VERIFIED_CALLS_135_SCENARIOS_9_UPDATED_TOPIC_EVALUATIONS",
   "instruction_file": "ПЕРВИЧНЫЙ_ФИЛЬТР_СПРОСА.md",
   "parameters_file": "ПАРАМЕТРЫ_ФИЛЬТРА_СПРОСА.json",
   "readable_results_file": "РЕЗУЛЬТАТЫ_ФИЛЬТРА_СПРОСА.md",
@@ -8547,6 +8547,831 @@
       "prior_observation_id": null,
       "requery_reason": null,
       "interpretation_status": "MEASURED_SEED_NOT_FULL_PAID_RELEVANT_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-012-O36.2-Q2",
+      "source_scenario_ids": [
+        "O36.2"
+      ],
+      "query_id": "O36.2-Q2",
+      "query_original": "заявка на спецодежду по размерам",
+      "query_sent": "заявка на спецодежду по размерам",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "заявка на спецодежду по размерам",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-0f3edb1c-8d71-467a-af76-4a8180ac2974",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": "4",
+      "frequency_integer": 4,
+      "frequency_field_path": "records[0].result.totalCount",
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": null,
+        "association_rows": null,
+        "related_fields_absent": true,
+        "associations_fields_absent": true,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 1140,
+        "caution": "Базовый «учет выдачи спецодежды»=946, но выдача содержит ведомости/карточки; новые «заявка по размерам»=4 и программный запрос=71 (внутри фразы 37 о программе и 5 с «бесплатная»). 71 — сигнал о ПО, не платёжный спрос; объёмы не складывать.",
+        "related_scope_warning": null
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=заявка на спецодежду по размерам|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_FULL_COMMERCIAL_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-012-O36.2-R1",
+      "source_scenario_ids": [
+        "O36.2"
+      ],
+      "query_id": "O36.2-R1",
+      "query_original": "программа учета выдачи сиз",
+      "query_sent": "программа учета выдачи сиз",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "программа учета выдачи сиз",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-67e4f6ed-fe6d-4941-9509-7c1b60aff5e3",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": "71",
+      "frequency_integer": 71,
+      "frequency_field_path": "records[1].result.totalCount",
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": 2,
+        "association_rows": 19,
+        "related_fields_absent": false,
+        "associations_fields_absent": false,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 1062,
+        "caution": "Базовый «учет выдачи спецодежды»=946, но выдача содержит ведомости/карточки; новые «заявка по размерам»=4 и программный запрос=71 (внутри фразы 37 о программе и 5 с «бесплатная»). 71 — сигнал о ПО, не платёжный спрос; объёмы не складывать.",
+        "related_scope_warning": null
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=программа учета выдачи сиз|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_FULL_COMMERCIAL_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-012-O28.3-Q2",
+      "source_scenario_ids": [
+        "O28.3"
+      ],
+      "query_id": "O28.3-Q2",
+      "query_original": "выдача формы спортсменам",
+      "query_sent": "выдача формы спортсменам",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "выдача формы спортсменам",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-eb75702b-5097-4652-83ed-ef20fedf23fb",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": "19",
+      "frequency_integer": 19,
+      "frequency_field_path": "records[2].result.totalCount",
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": null,
+        "association_rows": null,
+        "related_fields_absent": true,
+        "associations_fields_absent": true,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 972,
+        "caution": "«учет спортивного инвентаря»=398, «выдача формы спортсменам»=19, «программа учета спортивного инвентаря»=3. В широком запросе есть бухгалтерские формы; узкий спрос на ПО пока мал и полный кластер неизвестен.",
+        "related_scope_warning": null
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=выдача формы спортсменам|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_FULL_COMMERCIAL_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-012-O28.3-R1",
+      "source_scenario_ids": [
+        "O28.3"
+      ],
+      "query_id": "O28.3-R1",
+      "query_original": "программа учета спортивного инвентаря",
+      "query_sent": "программа учета спортивного инвентаря",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "программа учета спортивного инвентаря",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-19040e68-b382-4054-92f2-0efc687ccc94",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": "3",
+      "frequency_integer": 3,
+      "frequency_field_path": "records[3].result.totalCount",
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": null,
+        "association_rows": null,
+        "related_fields_absent": true,
+        "associations_fields_absent": true,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 315,
+        "caution": "«учет спортивного инвентаря»=398, «выдача формы спортсменам»=19, «программа учета спортивного инвентаря»=3. В широком запросе есть бухгалтерские формы; узкий спрос на ПО пока мал и полный кластер неизвестен.",
+        "related_scope_warning": null
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=программа учета спортивного инвентаря|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_FULL_COMMERCIAL_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-012-O30.2-Q2",
+      "source_scenario_ids": [
+        "O30.2"
+      ],
+      "query_id": "O30.2-Q2",
+      "query_original": "акт уборки с фотографиями",
+      "query_sent": "акт уборки с фотографиями",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "акт уборки с фотографиями",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-dbb22307-6567-44bd-a372-f2f8b9362ddd",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": null,
+      "frequency_integer": null,
+      "frequency_field_path": null,
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": null,
+        "association_rows": null,
+        "related_fields_absent": true,
+        "associations_fields_absent": true,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 316,
+        "caution": "«калькулятор клининга»=152, но «акт уборки с фотографиями» и «программа расчета стоимости клининга» вернули result={} без числа, не нулевые измерения. Клиентский расчёт стоимости уборки нельзя приравнять к покупке ПО.",
+        "related_scope_warning": null
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=акт уборки с фотографиями|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_FULL_COMMERCIAL_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-012-O30.2-R1",
+      "source_scenario_ids": [
+        "O30.2"
+      ],
+      "query_id": "O30.2-R1",
+      "query_original": "программа расчета стоимости клининга",
+      "query_sent": "программа расчета стоимости клининга",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "программа расчета стоимости клининга",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-5cfea2d7-7f9f-4e05-9799-31ce57446bd7",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": null,
+      "frequency_integer": null,
+      "frequency_field_path": null,
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": null,
+        "association_rows": null,
+        "related_fields_absent": true,
+        "associations_fields_absent": true,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 963,
+        "caution": "«калькулятор клининга»=152, но «акт уборки с фотографиями» и «программа расчета стоимости клининга» вернули result={} без числа, не нулевые измерения. Клиентский расчёт стоимости уборки нельзя приравнять к покупке ПО.",
+        "related_scope_warning": null
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=программа расчета стоимости клининга|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_FULL_COMMERCIAL_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-012-O36.3-Q2",
+      "source_scenario_ids": [
+        "O36.3"
+      ],
+      "query_id": "O36.3-Q2",
+      "query_original": "реестр удостоверений работников",
+      "query_sent": "реестр удостоверений работников",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "реестр удостоверений работников",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-309cb9b1-9882-4980-bef1-e5d64434cc6f",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": "28",
+      "frequency_integer": 28,
+      "frequency_field_path": "records[6].result.totalCount",
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": null,
+        "association_rows": null,
+        "related_fields_absent": true,
+        "associations_fields_absent": true,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 320,
+        "caution": "«контроль сроков обучения сотрудников»=138, «реестр удостоверений работников»=28, «программа контроля сроков обучения сотрудников»=7. Трудно отделить обязательное кадровое документирование от покупки отдельного ПО.",
+        "related_scope_warning": null
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=реестр удостоверений работников|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_FULL_COMMERCIAL_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-012-O36.3-R1",
+      "source_scenario_ids": [
+        "O36.3"
+      ],
+      "query_id": "O36.3-R1",
+      "query_original": "программа контроля сроков обучения сотрудников",
+      "query_sent": "программа контроля сроков обучения сотрудников",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "программа контроля сроков обучения сотрудников",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-c99bf566-282e-45e4-90df-b46db3296268",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": "7",
+      "frequency_integer": 7,
+      "frequency_field_path": "records[7].result.totalCount",
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": null,
+        "association_rows": null,
+        "related_fields_absent": true,
+        "associations_fields_absent": true,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 318,
+        "caution": "«контроль сроков обучения сотрудников»=138, «реестр удостоверений работников»=28, «программа контроля сроков обучения сотрудников»=7. Трудно отделить обязательное кадровое документирование от покупки отдельного ПО.",
+        "related_scope_warning": null
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=программа контроля сроков обучения сотрудников|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_FULL_COMMERCIAL_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-012-O33.3-Q2",
+      "source_scenario_ids": [
+        "O33.3"
+      ],
+      "query_id": "O33.3-Q2",
+      "query_original": "учет вывоза вторсырья",
+      "query_sent": "учет вывоза вторсырья",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "учет вывоза вторсырья",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-3dc138e3-6486-42a5-b320-e938d3ac904d",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": "1",
+      "frequency_integer": 1,
+      "frequency_field_path": "records[8].result.totalCount",
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": null,
+        "association_rows": null,
+        "related_fields_absent": true,
+        "associations_fields_absent": true,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 325,
+        "caution": "«учет контейнеров для отходов»=84, «учет вывоза вторсырья»=1, «программа учета контейнеров отходов» без числового totalCount. Не доказан платёжный трафик оператора.",
+        "related_scope_warning": null
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=учет вывоза вторсырья|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_FULL_COMMERCIAL_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-012-O33.3-R1",
+      "source_scenario_ids": [
+        "O33.3"
+      ],
+      "query_id": "O33.3-R1",
+      "query_original": "программа учета контейнеров отходов",
+      "query_sent": "программа учета контейнеров отходов",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "программа учета контейнеров отходов",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-f8eb5e38-e4a2-448f-aa6f-c81875bceaa2",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": null,
+      "frequency_integer": null,
+      "frequency_field_path": null,
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": null,
+        "association_rows": null,
+        "related_fields_absent": true,
+        "associations_fields_absent": true,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 320,
+        "caution": "«учет контейнеров для отходов»=84, «учет вывоза вторсырья»=1, «программа учета контейнеров отходов» без числового totalCount. Не доказан платёжный трафик оператора.",
+        "related_scope_warning": null
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=программа учета контейнеров отходов|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_FULL_COMMERCIAL_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-012-O43.2-Q2",
+      "source_scenario_ids": [
+        "O43.2"
+      ],
+      "query_id": "O43.2-Q2",
+      "query_original": "реестр выдачи благотворительной помощи",
+      "query_sent": "реестр выдачи благотворительной помощи",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "реестр выдачи благотворительной помощи",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-d49c3853-eafe-4b9a-b0c8-954ac626f350",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": null,
+      "frequency_integer": null,
+      "frequency_field_path": null,
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": null,
+        "association_rows": null,
+        "related_fields_absent": true,
+        "associations_fields_absent": true,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 342,
+        "caution": "«учет гуманитарной помощи»=176 с ассоциациями о других темах, «реестр выдачи благотворительной помощи» без числа. Нет подтверждённого объёма целевых покупателей НКО или их бюджета.",
+        "related_scope_warning": null
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=реестр выдачи благотворительной помощи|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_FULL_COMMERCIAL_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-012-O42.2-Q1",
+      "source_scenario_ids": [
+        "O42.2"
+      ],
+      "query_id": "O42.2-Q1",
+      "query_original": "учет выдачи книг",
+      "query_sent": "учет выдачи книг",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "учет выдачи книг",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-4fcc2f9b-9f1b-41ab-a3c8-b6bc1982e891",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": "1249",
+      "frequency_integer": 1249,
+      "frequency_field_path": "records[11].result.totalCount",
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": 9,
+        "association_rows": 16,
+        "related_fields_absent": false,
+        "associations_fields_absent": false,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 389,
+        "caution": "«программа маленькой библиотеки»=43; широкое «учет выдачи книг»=1249 содержит девять вложенных результатов о «книгах учета» ключей/имущества/удостоверений, не о выдаче библиотечных книг; 16 ассоциаций также не образуют целевой спрос. 1249 нельзя включать в релевантную нижнюю границу без отдельной проверки.",
+        "related_scope_warning": "Books of accounting (книги учета) are not library lending; exclude 1249 from proven library demand"
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=учет выдачи книг|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_RAW_MIXED_INTENT_RELEVANCE_NOT_ESTABLISHED"
+    },
+    {
+      "observation_id": "OBS-F1-012-O19.2-Q2",
+      "source_scenario_ids": [
+        "O19.2"
+      ],
+      "query_id": "O19.2-Q2",
+      "query_original": "список товаров для уценки",
+      "query_sent": "список товаров для уценки",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "список товаров для уценки",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-25e89470-478b-47cc-bbd3-c8285bb77019",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": "4",
+      "frequency_integer": 4,
+      "frequency_field_path": "records[12].result.totalCount",
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": null,
+        "association_rows": null,
+        "related_fields_absent": true,
+        "associations_fields_absent": true,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 317,
+        "caution": "«контроль сроков годности товаров»=315, «список товаров для уценки»=4, «программа контроля сроков годности товаров»=4. Широкие запросы о соблюдении правил не равны платным инструментам; семейства могут пересекаться.",
+        "related_scope_warning": null
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=список товаров для уценки|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_FULL_COMMERCIAL_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-012-O19.2-R1",
+      "source_scenario_ids": [
+        "O19.2"
+      ],
+      "query_id": "O19.2-R1",
+      "query_original": "программа контроля сроков годности товаров",
+      "query_sent": "программа контроля сроков годности товаров",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "программа контроля сроков годности товаров",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-8e878f89-1646-4a29-9dcd-ef244bedb498",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": "4",
+      "frequency_integer": 4,
+      "frequency_field_path": "records[13].result.totalCount",
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": null,
+        "association_rows": null,
+        "related_fields_absent": true,
+        "associations_fields_absent": true,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 342,
+        "caution": "«контроль сроков годности товаров»=315, «список товаров для уценки»=4, «программа контроля сроков годности товаров»=4. Широкие запросы о соблюдении правил не равны платным инструментам; семейства могут пересекаться.",
+        "related_scope_warning": null
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=программа контроля сроков годности товаров|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_FULL_COMMERCIAL_CLUSTER"
+    },
+    {
+      "observation_id": "OBS-F1-012-O08.2-Q2",
+      "source_scenario_ids": [
+        "O08.2"
+      ],
+      "query_id": "O08.2-Q2",
+      "query_original": "учет выработки по операциям",
+      "query_sent": "учет выработки по операциям",
+      "provider": "Yandex AI Studio Wordstat via Yandex Marketing Bridge 0.1.14",
+      "method": "getTop",
+      "effective_parameters": {
+        "phrase": "учет выработки по операциям",
+        "regions": [
+          "225"
+        ],
+        "devices": [
+          "DEVICE_ALL"
+        ],
+        "numPhrases": 50,
+        "operators": [],
+        "channel": "manual",
+        "job_id": null
+      },
+      "period_requested": "GetTop implicit trailing 30 days; no explicit date range",
+      "period_returned": null,
+      "period_returned_note": "Exact provider start and end dates/timestamps unavailable; delivery recorded 2026-11-01.",
+      "retrieved_at": null,
+      "received_date": "2026-11-01",
+      "provider_request_id": "wordstat-f4b88973-25d3-4a97-bdbf-8caf44ffd855",
+      "response_status": "OK_HTTP_200",
+      "response_complete": true,
+      "response_completeness_note": "All user-delivered response fields are preserved in structured source; absent nested keys are not asserted to be returned as empty arrays. Numeric totalCount absent is null.",
+      "frequency_raw": "62",
+      "frequency_integer": 62,
+      "frequency_field_path": "records[14].result.totalCount",
+      "frequency_semantics": "GetTop trailing ~30 day search events containing all input keywords, Russia 225, all devices. Not unique buyers, customers, clicks, or software-sales.",
+      "measurement_scope": "SINGLE_QUERY_NOT_FULL_COMMERCIAL_CLUSTER",
+      "source_path": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_sha256": null,
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_details": {
+        "related_rows": null,
+        "association_rows": null,
+        "related_fields_absent": true,
+        "associations_fields_absent": true,
+        "association_counts_not_additive": true,
+        "elapsed_ms": 985,
+        "caution": "«учет брака на производстве»=146, «учет выработки по операциям»=62. Сигнал рабочей потребности есть, но две широкие фразы не устанавливают спрос на небольшое отдельное ПО.",
+        "related_scope_warning": null
+      },
+      "deduplication_key": "yandex-ai-studio/wordstat/GetTop|phrase=учет выработки по операциям|regions=225|devices=DEVICE_ALL|numPhrases=50|period=implicit_trailing30d|as_of=2026-11-01",
+      "prior_observation_id": null,
+      "requery_reason": null,
+      "interpretation_status": "MEASURED_SEED_NOT_FULL_COMMERCIAL_CLUSTER"
     }
   ],
   "evaluations": [
@@ -16766,6 +17591,486 @@
       "reason_text": "Запрос про личный учёт техники и гарантий (2), рынок может выражаться иными словами и готовность платить отдельно неизвестна. Full commercial cluster, price range, actual CPC and first-purchase conversion unverified; PASS/REJECT would be unsupported.",
       "next_action": "Find other natural professional and commercial phrasings, review overlaps and informational/free intent; justify price and use verified Direct CPC and purchase conversion. Do not repeat this completed query simply to recalculate economics.",
       "supersedes": null
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261101-O36.2-002",
+      "evaluated_at": "2026-11-01",
+      "filter_version": "F1.0",
+      "entity_id": "O36.2",
+      "entity_scope": "TOPIC_CLUSTER_EXPANDED_QUERIES_STILL_INCOMPLETE",
+      "query_ids": [
+        "O36.2-Q1",
+        "O36.2-Q2",
+        "O36.2-R1"
+      ],
+      "observation_ids": [
+        "OBS-F1-010-O36.2-Q1",
+        "OBS-F1-012-O36.2-Q2",
+        "OBS-F1-012-O36.2-R1"
+      ],
+      "intent_status": "EXPLICIT_PROGRAM_QUERY_WITH_FREE_INTENT_AND_DOCUMENT_CONTAMINATION",
+      "intent_reason": "Базовый «учет выдачи спецодежды»=946, но выдача содержит ведомости/карточки; новые «заявка по размерам»=4 и программный запрос=71 (внутри фразы 37 о программе и 5 с «бесплатная»). 71 — сигнал о ПО, не платёжный спрос; объёмы не складывать.",
+      "cluster_scope_description": "Учёт выдачи спецодежды и СИЗ",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Measured broad and/or explicitly program-related queries have unknown overlap, incomplete coverage of target synonyms and mixed buyer intent. The sum of totalCount values is not a proved nonoverlapping commercial cluster. For O42.2, the 1249 broad count is heavily contaminated by non-library ledger books. Missing totalCount is unknown, not zero.",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": null,
+      "price_high": null,
+      "price_rationale": "No topic-specific validated sales price or buyer willingness to pay; base F1 price bands are not data.",
+      "payment_mode": "UNVERIFIED_ONE_TIME_OR_SUBSCRIPTION",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": null,
+      "Q_min_favorable_at_price_high": null,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NOT_ENOUGH_VERIFIED_RELEVANT_DEMAND_AND_PRICE",
+      "decision": "CLARIFY",
+      "reason_code": "EXPANDED_QUERIES_REMAIN_MIXED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "Базовый «учет выдачи спецодежды»=946, но выдача содержит ведомости/карточки; новые «заявка по размерам»=4 и программный запрос=71 (внутри фразы 37 о программе и 5 с «бесплатная»). 71 — сигнал о ПО, не платёжный спрос; объёмы не складывать. Still no defensible complete Q_low/Q_high of purchase-relevant searches, calibrated CPC/CR or proved price. Not an evidence-based topic PASS/REJECT.",
+      "next_action": "Preserve all completed requests. Expand natural professional and commercial synonyms, review competing/free products, bound relevant nonoverlapping demand and justify pricing/CPC/CR before economic classification.",
+      "supersedes": "F1-EVAL-20261031-O36.2-001"
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261101-O28.3-002",
+      "evaluated_at": "2026-11-01",
+      "filter_version": "F1.0",
+      "entity_id": "O28.3",
+      "entity_scope": "TOPIC_CLUSTER_EXPANDED_QUERIES_STILL_INCOMPLETE",
+      "query_ids": [
+        "O28.3-Q1",
+        "O28.3-Q2",
+        "O28.3-R1"
+      ],
+      "observation_ids": [
+        "OBS-F1-010-O28.3-Q1",
+        "OBS-F1-012-O28.3-Q2",
+        "OBS-F1-012-O28.3-R1"
+      ],
+      "intent_status": "EXPLICIT_PROGRAM_QUERY_LOW_VOLUME_WITH_ACCOUNTING_CONTAMINATION",
+      "intent_reason": "«учет спортивного инвентаря»=398, «выдача формы спортсменам»=19, «программа учета спортивного инвентаря»=3. В широком запросе есть бухгалтерские формы; узкий спрос на ПО пока мал и полный кластер неизвестен.",
+      "cluster_scope_description": "Учёт спортивного инвентаря и его выдачи",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Measured broad and/or explicitly program-related queries have unknown overlap, incomplete coverage of target synonyms and mixed buyer intent. The sum of totalCount values is not a proved nonoverlapping commercial cluster. For O42.2, the 1249 broad count is heavily contaminated by non-library ledger books. Missing totalCount is unknown, not zero.",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": null,
+      "price_high": null,
+      "price_rationale": "No topic-specific validated sales price or buyer willingness to pay; base F1 price bands are not data.",
+      "payment_mode": "UNVERIFIED_ONE_TIME_OR_SUBSCRIPTION",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": null,
+      "Q_min_favorable_at_price_high": null,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NOT_ENOUGH_VERIFIED_RELEVANT_DEMAND_AND_PRICE",
+      "decision": "CLARIFY",
+      "reason_code": "EXPANDED_QUERIES_REMAIN_MIXED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "«учет спортивного инвентаря»=398, «выдача формы спортсменам»=19, «программа учета спортивного инвентаря»=3. В широком запросе есть бухгалтерские формы; узкий спрос на ПО пока мал и полный кластер неизвестен. Still no defensible complete Q_low/Q_high of purchase-relevant searches, calibrated CPC/CR or proved price. Not an evidence-based topic PASS/REJECT.",
+      "next_action": "Preserve all completed requests. Expand natural professional and commercial synonyms, review competing/free products, bound relevant nonoverlapping demand and justify pricing/CPC/CR before economic classification.",
+      "supersedes": "F1-EVAL-20261031-O28.3-001"
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261101-O30.2-002",
+      "evaluated_at": "2026-11-01",
+      "filter_version": "F1.0",
+      "entity_id": "O30.2",
+      "entity_scope": "TOPIC_CLUSTER_EXPANDED_QUERIES_STILL_INCOMPLETE",
+      "query_ids": [
+        "O30.2-Q1",
+        "O30.2-Q2",
+        "O30.2-R1"
+      ],
+      "observation_ids": [
+        "OBS-F1-010-O30.2-Q1",
+        "OBS-F1-012-O30.2-Q2",
+        "OBS-F1-012-O30.2-R1"
+      ],
+      "intent_status": "SERVICE_CALCULATOR_VS_SPECIALIZED_PROGRAM_UNRESOLVED",
+      "intent_reason": "«калькулятор клининга»=152, но «акт уборки с фотографиями» и «программа расчета стоимости клининга» вернули result={} без числа, не нулевые измерения. Клиентский расчёт стоимости уборки нельзя приравнять к покупке ПО.",
+      "cluster_scope_description": "Калькулятор работ для клининговой организации",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Measured broad and/or explicitly program-related queries have unknown overlap, incomplete coverage of target synonyms and mixed buyer intent. The sum of totalCount values is not a proved nonoverlapping commercial cluster. For O42.2, the 1249 broad count is heavily contaminated by non-library ledger books. Missing totalCount is unknown, not zero.",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": null,
+      "price_high": null,
+      "price_rationale": "No topic-specific validated sales price or buyer willingness to pay; base F1 price bands are not data.",
+      "payment_mode": "UNVERIFIED_ONE_TIME_OR_SUBSCRIPTION",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": null,
+      "Q_min_favorable_at_price_high": null,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NOT_ENOUGH_VERIFIED_RELEVANT_DEMAND_AND_PRICE",
+      "decision": "CLARIFY",
+      "reason_code": "EXPANDED_QUERIES_REMAIN_MIXED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "«калькулятор клининга»=152, но «акт уборки с фотографиями» и «программа расчета стоимости клининга» вернули result={} без числа, не нулевые измерения. Клиентский расчёт стоимости уборки нельзя приравнять к покупке ПО. Still no defensible complete Q_low/Q_high of purchase-relevant searches, calibrated CPC/CR or proved price. Not an evidence-based topic PASS/REJECT.",
+      "next_action": "Preserve all completed requests. Expand natural professional and commercial synonyms, review competing/free products, bound relevant nonoverlapping demand and justify pricing/CPC/CR before economic classification.",
+      "supersedes": "F1-EVAL-20261031-O30.2-001"
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261101-O36.3-002",
+      "evaluated_at": "2026-11-01",
+      "filter_version": "F1.0",
+      "entity_id": "O36.3",
+      "entity_scope": "TOPIC_CLUSTER_EXPANDED_QUERIES_STILL_INCOMPLETE",
+      "query_ids": [
+        "O36.3-Q1",
+        "O36.3-Q2",
+        "O36.3-R1"
+      ],
+      "observation_ids": [
+        "OBS-F1-011-O36.3-Q1",
+        "OBS-F1-012-O36.3-Q2",
+        "OBS-F1-012-O36.3-R1"
+      ],
+      "intent_status": "COMPLIANCE_TRAINING_TASK_VS_PAID_PROGRAM_UNVERIFIED",
+      "intent_reason": "«контроль сроков обучения сотрудников»=138, «реестр удостоверений работников»=28, «программа контроля сроков обучения сотрудников»=7. Трудно отделить обязательное кадровое документирование от покупки отдельного ПО.",
+      "cluster_scope_description": "Специалист по обучению персонала: Напомнить о назначенном обучении, собрать подтверждающие документы и показать отсутствующие.",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Measured broad and/or explicitly program-related queries have unknown overlap, incomplete coverage of target synonyms and mixed buyer intent. The sum of totalCount values is not a proved nonoverlapping commercial cluster. For O42.2, the 1249 broad count is heavily contaminated by non-library ledger books. Missing totalCount is unknown, not zero.",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": null,
+      "price_high": null,
+      "price_rationale": "No topic-specific validated sales price or buyer willingness to pay; base F1 price bands are not data.",
+      "payment_mode": "UNVERIFIED_ONE_TIME_OR_SUBSCRIPTION",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": null,
+      "Q_min_favorable_at_price_high": null,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NOT_ENOUGH_VERIFIED_RELEVANT_DEMAND_AND_PRICE",
+      "decision": "CLARIFY",
+      "reason_code": "EXPANDED_QUERIES_REMAIN_MIXED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "«контроль сроков обучения сотрудников»=138, «реестр удостоверений работников»=28, «программа контроля сроков обучения сотрудников»=7. Трудно отделить обязательное кадровое документирование от покупки отдельного ПО. Still no defensible complete Q_low/Q_high of purchase-relevant searches, calibrated CPC/CR or proved price. Not an evidence-based topic PASS/REJECT.",
+      "next_action": "Preserve all completed requests. Expand natural professional and commercial synonyms, review competing/free products, bound relevant nonoverlapping demand and justify pricing/CPC/CR before economic classification.",
+      "supersedes": "F1-EVAL-20261101-O36.3-001"
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261101-O33.3-002",
+      "evaluated_at": "2026-11-01",
+      "filter_version": "F1.0",
+      "entity_id": "O33.3",
+      "entity_scope": "TOPIC_CLUSTER_EXPANDED_QUERIES_STILL_INCOMPLETE",
+      "query_ids": [
+        "O33.3-Q1",
+        "O33.3-Q2",
+        "O33.3-R1"
+      ],
+      "observation_ids": [
+        "OBS-F1-011-O33.3-Q1",
+        "OBS-F1-012-O33.3-Q2",
+        "OBS-F1-012-O33.3-R1"
+      ],
+      "intent_status": "WASTE_LOGISTICS_TASK_MIXED_WITH_REPORTING",
+      "intent_reason": "«учет контейнеров для отходов»=84, «учет вывоза вторсырья»=1, «программа учета контейнеров отходов» без числового totalCount. Не доказан платёжный трафик оператора.",
+      "cluster_scope_description": "Оператор вывоза вторсырья: Учет контейнеров по площадкам, заявок на замену, вывоза и фактически принятого веса.",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Measured broad and/or explicitly program-related queries have unknown overlap, incomplete coverage of target synonyms and mixed buyer intent. The sum of totalCount values is not a proved nonoverlapping commercial cluster. For O42.2, the 1249 broad count is heavily contaminated by non-library ledger books. Missing totalCount is unknown, not zero.",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": null,
+      "price_high": null,
+      "price_rationale": "No topic-specific validated sales price or buyer willingness to pay; base F1 price bands are not data.",
+      "payment_mode": "UNVERIFIED_ONE_TIME_OR_SUBSCRIPTION",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": null,
+      "Q_min_favorable_at_price_high": null,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NOT_ENOUGH_VERIFIED_RELEVANT_DEMAND_AND_PRICE",
+      "decision": "CLARIFY",
+      "reason_code": "EXPANDED_QUERIES_REMAIN_MIXED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "«учет контейнеров для отходов»=84, «учет вывоза вторсырья»=1, «программа учета контейнеров отходов» без числового totalCount. Не доказан платёжный трафик оператора. Still no defensible complete Q_low/Q_high of purchase-relevant searches, calibrated CPC/CR or proved price. Not an evidence-based topic PASS/REJECT.",
+      "next_action": "Preserve all completed requests. Expand natural professional and commercial synonyms, review competing/free products, bound relevant nonoverlapping demand and justify pricing/CPC/CR before economic classification.",
+      "supersedes": "F1-EVAL-20261101-O33.3-001"
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261101-O43.2-002",
+      "evaluated_at": "2026-11-01",
+      "filter_version": "F1.0",
+      "entity_id": "O43.2",
+      "entity_scope": "TOPIC_CLUSTER_EXPANDED_QUERIES_STILL_INCOMPLETE",
+      "query_ids": [
+        "O43.2-Q1",
+        "O43.2-Q2"
+      ],
+      "observation_ids": [
+        "OBS-F1-011-O43.2-Q1",
+        "OBS-F1-012-O43.2-Q2"
+      ],
+      "intent_status": "CHARITY_OPERATION_QUERY_WITH_NONCOMMERCIAL_ASSOCIATIONS",
+      "intent_reason": "«учет гуманитарной помощи»=176 с ассоциациями о других темах, «реестр выдачи благотворительной помощи» без числа. Нет подтверждённого объёма целевых покупателей НКО или их бюджета.",
+      "cluster_scope_description": "Сотрудник благотворительного проекта: Свести выданные вещи по партиям и обезличенным заявкам, сформировать отчёт для ответственного.",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Measured broad and/or explicitly program-related queries have unknown overlap, incomplete coverage of target synonyms and mixed buyer intent. The sum of totalCount values is not a proved nonoverlapping commercial cluster. For O42.2, the 1249 broad count is heavily contaminated by non-library ledger books. Missing totalCount is unknown, not zero.",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": null,
+      "price_high": null,
+      "price_rationale": "No topic-specific validated sales price or buyer willingness to pay; base F1 price bands are not data.",
+      "payment_mode": "UNVERIFIED_ONE_TIME_OR_SUBSCRIPTION",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": null,
+      "Q_min_favorable_at_price_high": null,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NOT_ENOUGH_VERIFIED_RELEVANT_DEMAND_AND_PRICE",
+      "decision": "CLARIFY",
+      "reason_code": "EXPANDED_QUERIES_REMAIN_MIXED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "«учет гуманитарной помощи»=176 с ассоциациями о других темах, «реестр выдачи благотворительной помощи» без числа. Нет подтверждённого объёма целевых покупателей НКО или их бюджета. Still no defensible complete Q_low/Q_high of purchase-relevant searches, calibrated CPC/CR or proved price. Not an evidence-based topic PASS/REJECT.",
+      "next_action": "Preserve all completed requests. Expand natural professional and commercial synonyms, review competing/free products, bound relevant nonoverlapping demand and justify pricing/CPC/CR before economic classification.",
+      "supersedes": "F1-EVAL-20261101-O43.2-001"
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261101-O42.2-002",
+      "evaluated_at": "2026-11-01",
+      "filter_version": "F1.0",
+      "entity_id": "O42.2",
+      "entity_scope": "TOPIC_CLUSTER_EXPANDED_QUERIES_STILL_INCOMPLETE",
+      "query_ids": [
+        "O42.2-Q2",
+        "O42.2-Q1"
+      ],
+      "observation_ids": [
+        "OBS-F1-011-O42.2-Q2",
+        "OBS-F1-012-O42.2-Q1"
+      ],
+      "intent_status": "LEDGER_BOOK_AMBIGUITY_NOT_VALID_LIBRARY_DEMAND",
+      "intent_reason": "«программа маленькой библиотеки»=43; широкое «учет выдачи книг»=1249 содержит девять вложенных результатов о «книгах учета» ключей/имущества/удостоверений, не о выдаче библиотечных книг; 16 ассоциаций также не образуют целевой спрос. 1249 нельзя включать в релевантную нижнюю границу без отдельной проверки.",
+      "cluster_scope_description": "Библиотекарь небольшого сообщества: Выдача книг по QR-коду, очередь ожидания и напоминание о возврате.",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Measured broad and/or explicitly program-related queries have unknown overlap, incomplete coverage of target synonyms and mixed buyer intent. The sum of totalCount values is not a proved nonoverlapping commercial cluster. For O42.2, the 1249 broad count is heavily contaminated by non-library ledger books. Missing totalCount is unknown, not zero.",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": null,
+      "price_high": null,
+      "price_rationale": "No topic-specific validated sales price or buyer willingness to pay; base F1 price bands are not data.",
+      "payment_mode": "UNVERIFIED_ONE_TIME_OR_SUBSCRIPTION",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": null,
+      "Q_min_favorable_at_price_high": null,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NOT_ENOUGH_VERIFIED_RELEVANT_DEMAND_AND_PRICE",
+      "decision": "CLARIFY",
+      "reason_code": "EXPANDED_QUERIES_REMAIN_MIXED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "«программа маленькой библиотеки»=43; широкое «учет выдачи книг»=1249 содержит девять вложенных результатов о «книгах учета» ключей/имущества/удостоверений, не о выдаче библиотечных книг; 16 ассоциаций также не образуют целевой спрос. 1249 нельзя включать в релевантную нижнюю границу без отдельной проверки. Still no defensible complete Q_low/Q_high of purchase-relevant searches, calibrated CPC/CR or proved price. Not an evidence-based topic PASS/REJECT.",
+      "next_action": "Exclude generic «учет выдачи книг» 1249 from paid-library demand estimates. Explore library-specific borrower/loan/return terminology, compare free software and actual prices; no automatic further paid requery of the ambiguous phrase.",
+      "supersedes": "F1-EVAL-20261101-O42.2-001"
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261101-O19.2-002",
+      "evaluated_at": "2026-11-01",
+      "filter_version": "F1.0",
+      "entity_id": "O19.2",
+      "entity_scope": "TOPIC_CLUSTER_EXPANDED_QUERIES_STILL_INCOMPLETE",
+      "query_ids": [
+        "O19.2-Q1",
+        "O19.2-Q2",
+        "O19.2-R1"
+      ],
+      "observation_ids": [
+        "OBS-F1-009-O19.2-Q1",
+        "OBS-F1-012-O19.2-Q2",
+        "OBS-F1-012-O19.2-R1"
+      ],
+      "intent_status": "EXPIRY_REGULATION_VS_PAID_TOOL_UNRESOLVED",
+      "intent_reason": "«контроль сроков годности товаров»=315, «список товаров для уценки»=4, «программа контроля сроков годности товаров»=4. Широкие запросы о соблюдении правил не равны платным инструментам; семейства могут пересекаться.",
+      "cluster_scope_description": "Контроль сроков годности товаров и уценки в небольшом магазине",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Measured broad and/or explicitly program-related queries have unknown overlap, incomplete coverage of target synonyms and mixed buyer intent. The sum of totalCount values is not a proved nonoverlapping commercial cluster. For O42.2, the 1249 broad count is heavily contaminated by non-library ledger books. Missing totalCount is unknown, not zero.",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 4990,
+      "price_high": 9990,
+      "price_rationale": "F1 provisional small_team one-time pricing range, not observed price or willingness to pay. Previous band retained as scenario hypothesis, not measured market willingness to pay.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 4758.718120306343,
+      "Q_min_favorable_at_price_high": 790.9534696904158,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NOT_ENOUGH_VERIFIED_RELEVANT_DEMAND_AND_PRICE",
+      "decision": "CLARIFY",
+      "reason_code": "EXPANDED_QUERIES_REMAIN_MIXED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "«контроль сроков годности товаров»=315, «список товаров для уценки»=4, «программа контроля сроков годности товаров»=4. Широкие запросы о соблюдении правил не равны платным инструментам; семейства могут пересекаться. Still no defensible complete Q_low/Q_high of purchase-relevant searches, calibrated CPC/CR or proved price. Not an evidence-based topic PASS/REJECT.",
+      "next_action": "Preserve all completed requests. Expand natural professional and commercial synonyms, review competing/free products, bound relevant nonoverlapping demand and justify pricing/CPC/CR before economic classification.",
+      "supersedes": "F1-EVAL-20261031-O19.2-001"
+    },
+    {
+      "evaluation_id": "F1-EVAL-20261101-O08.2-002",
+      "evaluated_at": "2026-11-01",
+      "filter_version": "F1.0",
+      "entity_id": "O08.2",
+      "entity_scope": "TOPIC_CLUSTER_EXPANDED_QUERIES_STILL_INCOMPLETE",
+      "query_ids": [
+        "O08.2-Q1",
+        "O08.2-Q2"
+      ],
+      "observation_ids": [
+        "OBS-F1-006-O08.2-Q1",
+        "OBS-F1-012-O08.2-Q2"
+      ],
+      "intent_status": "PRODUCTION_OPERATIONS_UNSPECIFIED_SOFTWARE_INTENT",
+      "intent_reason": "«учет брака на производстве»=146, «учет выработки по операциям»=62. Сигнал рабочей потребности есть, но две широкие фразы не устанавливают спрос на небольшое отдельное ПО.",
+      "cluster_scope_description": "Учёт брака на производстве по операциям",
+      "cluster_review_complete": false,
+      "Q_low": null,
+      "Q_high": null,
+      "Q_bounds_basis": "Measured broad and/or explicitly program-related queries have unknown overlap, incomplete coverage of target synonyms and mixed buyer intent. The sum of totalCount values is not a proved nonoverlapping commercial cluster. For O42.2, the 1249 broad count is heavily contaminated by non-library ledger books. Missing totalCount is unknown, not zero.",
+      "seasonality_status": "UNTESTED_ROLLING_30_DAYS",
+      "price_low": 4990,
+      "price_high": 9990,
+      "price_rationale": "Временный диапазон F1 для small_team; гипотеза о разовой оплате, не цена рынка и не подтверждённая готовность платить. Previous band retained as scenario hypothesis, not measured market willingness to pay.",
+      "payment_mode": "one_time_price_hypothesis_only",
+      "parameter_snapshot": {
+        "H": 8000,
+        "a": 0.5,
+        "CTR": 0.05,
+        "m": 0.85,
+        "base": {
+          "CPC": 60,
+          "CR_new_paid_customer": 0.03
+        },
+        "favorable": {
+          "CPC": 20,
+          "CR_new_paid_customer": 0.05
+        }
+      },
+      "parameter_override_sources": [],
+      "Q_min_base_at_price_low": 4758.718120306343,
+      "Q_min_favorable_at_price_high": 790.9534696904158,
+      "B_base_at_Q_low": null,
+      "coverage_K": null,
+      "stress_label": "NOT_ENOUGH_VERIFIED_RELEVANT_DEMAND_AND_PRICE",
+      "decision": "CLARIFY",
+      "reason_code": "EXPANDED_QUERIES_REMAIN_MIXED_INTENT_AND_CLUSTER_INCOMPLETE",
+      "reason_text": "«учет брака на производстве»=146, «учет выработки по операциям»=62. Сигнал рабочей потребности есть, но две широкие фразы не устанавливают спрос на небольшое отдельное ПО. Still no defensible complete Q_low/Q_high of purchase-relevant searches, calibrated CPC/CR or proved price. Not an evidence-based topic PASS/REJECT.",
+      "next_action": "Preserve all completed requests. Expand natural professional and commercial synonyms, review competing/free products, bound relevant nonoverlapping demand and justify pricing/CPC/CR before economic classification.",
+      "supersedes": "F1-EVAL-20261031-O08.2-001"
     }
   ],
   "reuse_events": [],
@@ -18914,6 +20219,201 @@
       "reason": "Single broad GetTop phrase is not a verified complete paid-relevant commercial cluster; missing totalCount is null, not zero.",
       "decided_at": "2026-11-01",
       "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O36.2-Q2-001",
+      "query_id": "O36.2-Q2",
+      "observation_ids": [
+        "OBS-F1-012-O36.2-Q2"
+      ],
+      "intent_status": "EXPLICIT_PROGRAM_QUERY_WITH_FREE_INTENT_AND_DOCUMENT_CONTAMINATION",
+      "topic_evaluation_id": "F1-EVAL-20261101-O36.2-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw broad phrase totalCount=4; does not establish commercially relevant paid-software demand.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O36.2-R1-001",
+      "query_id": "O36.2-R1",
+      "observation_ids": [
+        "OBS-F1-012-O36.2-R1"
+      ],
+      "intent_status": "EXPLICIT_PROGRAM_QUERY_WITH_FREE_INTENT_AND_DOCUMENT_CONTAMINATION",
+      "topic_evaluation_id": "F1-EVAL-20261101-O36.2-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw broad phrase totalCount=71; does not establish commercially relevant paid-software demand.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O28.3-Q2-001",
+      "query_id": "O28.3-Q2",
+      "observation_ids": [
+        "OBS-F1-012-O28.3-Q2"
+      ],
+      "intent_status": "EXPLICIT_PROGRAM_QUERY_LOW_VOLUME_WITH_ACCOUNTING_CONTAMINATION",
+      "topic_evaluation_id": "F1-EVAL-20261101-O28.3-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw broad phrase totalCount=19; does not establish commercially relevant paid-software demand.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O28.3-R1-001",
+      "query_id": "O28.3-R1",
+      "observation_ids": [
+        "OBS-F1-012-O28.3-R1"
+      ],
+      "intent_status": "EXPLICIT_PROGRAM_QUERY_LOW_VOLUME_WITH_ACCOUNTING_CONTAMINATION",
+      "topic_evaluation_id": "F1-EVAL-20261101-O28.3-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw broad phrase totalCount=3; does not establish commercially relevant paid-software demand.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O30.2-Q2-001",
+      "query_id": "O30.2-Q2",
+      "observation_ids": [
+        "OBS-F1-012-O30.2-Q2"
+      ],
+      "intent_status": "SERVICE_CALCULATOR_VS_SPECIALIZED_PROGRAM_UNRESOLVED",
+      "topic_evaluation_id": "F1-EVAL-20261101-O30.2-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Successful result={} is missing numeric field, not 0; cluster scope remains open.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O30.2-R1-001",
+      "query_id": "O30.2-R1",
+      "observation_ids": [
+        "OBS-F1-012-O30.2-R1"
+      ],
+      "intent_status": "SERVICE_CALCULATOR_VS_SPECIALIZED_PROGRAM_UNRESOLVED",
+      "topic_evaluation_id": "F1-EVAL-20261101-O30.2-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Successful result={} is missing numeric field, not 0; cluster scope remains open.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O36.3-Q2-001",
+      "query_id": "O36.3-Q2",
+      "observation_ids": [
+        "OBS-F1-012-O36.3-Q2"
+      ],
+      "intent_status": "COMPLIANCE_TRAINING_TASK_VS_PAID_PROGRAM_UNVERIFIED",
+      "topic_evaluation_id": "F1-EVAL-20261101-O36.3-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw broad phrase totalCount=28; does not establish commercially relevant paid-software demand.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O36.3-R1-001",
+      "query_id": "O36.3-R1",
+      "observation_ids": [
+        "OBS-F1-012-O36.3-R1"
+      ],
+      "intent_status": "COMPLIANCE_TRAINING_TASK_VS_PAID_PROGRAM_UNVERIFIED",
+      "topic_evaluation_id": "F1-EVAL-20261101-O36.3-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw broad phrase totalCount=7; does not establish commercially relevant paid-software demand.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O33.3-Q2-001",
+      "query_id": "O33.3-Q2",
+      "observation_ids": [
+        "OBS-F1-012-O33.3-Q2"
+      ],
+      "intent_status": "WASTE_LOGISTICS_TASK_MIXED_WITH_REPORTING",
+      "topic_evaluation_id": "F1-EVAL-20261101-O33.3-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw broad phrase totalCount=1; does not establish commercially relevant paid-software demand.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O33.3-R1-001",
+      "query_id": "O33.3-R1",
+      "observation_ids": [
+        "OBS-F1-012-O33.3-R1"
+      ],
+      "intent_status": "WASTE_LOGISTICS_TASK_MIXED_WITH_REPORTING",
+      "topic_evaluation_id": "F1-EVAL-20261101-O33.3-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Successful result={} is missing numeric field, not 0; cluster scope remains open.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O43.2-Q2-001",
+      "query_id": "O43.2-Q2",
+      "observation_ids": [
+        "OBS-F1-012-O43.2-Q2"
+      ],
+      "intent_status": "CHARITY_OPERATION_QUERY_WITH_NONCOMMERCIAL_ASSOCIATIONS",
+      "topic_evaluation_id": "F1-EVAL-20261101-O43.2-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Successful result={} is missing numeric field, not 0; cluster scope remains open.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O42.2-Q1-001",
+      "query_id": "O42.2-Q1",
+      "observation_ids": [
+        "OBS-F1-012-O42.2-Q1"
+      ],
+      "intent_status": "LEDGER_BOOK_AMBIGUITY_NOT_VALID_LIBRARY_DEMAND",
+      "topic_evaluation_id": "F1-EVAL-20261101-O42.2-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Broad phrase about «книги учета» heavily contaminated by non-library uses in all nine nested rows. No validated library-specific share; exclude 1249 from Q_low pending evidence. This is not a rejection of whole library topic.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O19.2-Q2-001",
+      "query_id": "O19.2-Q2",
+      "observation_ids": [
+        "OBS-F1-012-O19.2-Q2"
+      ],
+      "intent_status": "EXPIRY_REGULATION_VS_PAID_TOOL_UNRESOLVED",
+      "topic_evaluation_id": "F1-EVAL-20261101-O19.2-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw broad phrase totalCount=4; does not establish commercially relevant paid-software demand.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O19.2-R1-001",
+      "query_id": "O19.2-R1",
+      "observation_ids": [
+        "OBS-F1-012-O19.2-R1"
+      ],
+      "intent_status": "EXPIRY_REGULATION_VS_PAID_TOOL_UNRESOLVED",
+      "topic_evaluation_id": "F1-EVAL-20261101-O19.2-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw broad phrase totalCount=4; does not establish commercially relevant paid-software demand.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
+    },
+    {
+      "query_decision_id": "QS-20261101-O08.2-Q2-001",
+      "query_id": "O08.2-Q2",
+      "observation_ids": [
+        "OBS-F1-012-O08.2-Q2"
+      ],
+      "intent_status": "PRODUCTION_OPERATIONS_UNSPECIFIED_SOFTWARE_INTENT",
+      "topic_evaluation_id": "F1-EVAL-20261101-O08.2-002",
+      "query_disposition": "CLARIFY",
+      "reason": "Raw broad phrase totalCount=62; does not establish commercially relevant paid-software demand.",
+      "decided_at": "2026-11-01",
+      "supersedes": null
     }
   ],
   "schema_notes": {
@@ -19027,7 +20527,7 @@
     "clarify": 0,
     "seed_phrases_not_measured": 270
   },
-  "next_action": "F1-011 confirmed 15/15, all 135 professional scenarios now have an initial Wordstat query. 154 of 270 initial Q1/Q2 have been measured, 116 remain; 11 R phrases. 135 topics all CLARIFY: expand complete professional/commercial query families, review intent and overlaps, independent price and Direct CPC/CR, competition, then financial viability. No repeat of 165 completed requests without specific reason.",
+  "next_action": "F1-012 done: 180 GetTop, 137 numeric and 43 missing, first pass all 135 scenarios; 163/270 seed Q1/Q2 + 17 R variants; nine updated topic evaluations still CLARIFY. For O42.2 do not count 1249 generic 'учет выдачи книг' as proven library demand. Continue across 45 industries with new relevant professional synonyms, competition, price, Direct CPC/CR; never repeat the 180 completed requests without documented reason.",
   "batch_jobs": [
     {
       "job_id": "microproducts-f1-wave01-20261031",
@@ -19071,24 +20571,24 @@
     }
   ],
   "current_counts": {
-    "observations": 165,
-    "evaluations_total": 158,
+    "observations": 180,
+    "evaluations_total": 167,
     "evaluated_topics": 135,
     "pass": 0,
     "reject": 0,
     "clarify": 135,
     "query_level_rejected_irrelevant": 1,
-    "seed_phrases_measured": 154,
-    "seed_phrases_not_measured": 116,
-    "new_professional_phrases_measured": 11,
-    "api_calls_successful": 165,
-    "api_calls_with_numeric_total": 126,
-    "api_calls_without_numeric_total": 39,
+    "seed_phrases_measured": 163,
+    "seed_phrases_not_measured": 107,
+    "new_professional_phrases_measured": 17,
+    "api_calls_successful": 180,
+    "api_calls_with_numeric_total": 137,
+    "api_calls_without_numeric_total": 43,
     "cancelled_prior_batch_succeeded": 1,
     "cancelled_prior_batch_remaining": 14,
     "cancelled_prior_batch_pending": 0,
-    "manual_normal_calls": 164,
-    "estimated_total_cost_rub": 3.3,
+    "manual_normal_calls": 179,
+    "estimated_total_cost_rub": 3.6,
     "distinct_directions_measured": 45
   },
   "manual_multi_command_runs": [
@@ -19428,6 +20928,41 @@
       "external_payment_confirmation": false,
       "original_text_byte_for_byte_available": false,
       "fields_transcribed_complete": true
+    },
+    {
+      "run_id": "MANUAL-F1-012-15",
+      "source_file": "данные/2026-11-01/WORDSTAT_F1_012_MANUAL15_SOURCE.json",
+      "source_git_blob_sha": "bff9d528b21712adae0a461564c5c6f1f62c3de5",
+      "source_sha256": null,
+      "status": "ALL_15_PROVIDER_CALLS_OK_HTTP_200_DELIVERED",
+      "observed_date": "2026-11-01",
+      "execution_date": "NOT_RETURNED",
+      "count": 15,
+      "est_cost_rub": 0.3,
+      "verified_ids": [
+        "wordstat-0f3edb1c-8d71-467a-af76-4a8180ac2974",
+        "wordstat-67e4f6ed-fe6d-4941-9509-7c1b60aff5e3",
+        "wordstat-eb75702b-5097-4652-83ed-ef20fedf23fb",
+        "wordstat-19040e68-b382-4054-92f2-0efc687ccc94",
+        "wordstat-dbb22307-6567-44bd-a372-f2f8b9362ddd",
+        "wordstat-5cfea2d7-7f9f-4e05-9799-31ce57446bd7",
+        "wordstat-309cb9b1-9882-4980-bef1-e5d64434cc6f",
+        "wordstat-c99bf566-282e-45e4-90df-b46db3296268",
+        "wordstat-3dc138e3-6486-42a5-b320-e938d3ac904d",
+        "wordstat-f8eb5e38-e4a2-448f-aa6f-c81875bceaa2",
+        "wordstat-d49c3853-eafe-4b9a-b0c8-954ac626f350",
+        "wordstat-4fcc2f9b-9f1b-41ab-a3c8-b6bc1982e891",
+        "wordstat-25e89470-478b-47cc-bbd3-c8285bb77019",
+        "wordstat-8e878f89-1646-4a29-9dcd-ef244bedb498",
+        "wordstat-f4b88973-25d3-4a97-bdbf-8caf44ffd855"
+      ],
+      "numeric_totalCount": 11,
+      "missing_numeric_totalCount": 4,
+      "nested_results_rows": 11,
+      "associations_rows": 35,
+      "no_duplicate_of_previous": true,
+      "external_payment_confirmation": false,
+      "note": "9 original Q1/Q2 and 6 added R1; 9 latest topic evaluations supersede old versions; one especially ambiguous generic books ledger query not counted as confirmed library demand."
     }
   ]
 }
